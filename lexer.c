@@ -26,10 +26,13 @@ typedef struct {
 const char* sourceCode;
 int currentPosition = 0;
 
-// Keywords in your language (modify as needed)
-const char* keywords[] = {"int", "if", "else", "while", "for", "return"};
+// Keywords 
+const char *keywords[] = {"break", "case", "char", "const", "continue",
+                        "do", "double", "else", "enum", "float", "for", "if", "int", "long",
+                        "return",  "struct", "switch", "typedef", "void", "while"          
+                        };
 
-// Special symbols in your language (modify as needed)
+// Special symbols 
 const char* specialSymbols[] = {"{", "}", "(", ")", ";", ",", "[", "]"};
 
 // Function to initialize the lexer
@@ -45,7 +48,7 @@ char getNextChar() {
 
 // Function to check if a character is a valid identifier character
 bool isValidIdentifierChar(char c) {
-    return isalnum(c) || c == '_';
+    return isalnum(c);
 }
 
 // Function to check if a character is a valid keyword character
@@ -72,7 +75,7 @@ Token getNextToken() {
         return token;
     }
 
-    if (isalpha(currentChar) || currentChar == '_') {
+    if (isalpha(currentChar)) {
         int i = 0;
         token.value[i++] = currentChar;
         while (isValidIdentifierChar(sourceCode[currentPosition])) {
@@ -107,7 +110,7 @@ Token getNextToken() {
             token.value[i] = '\0';
             token.type = TOKEN_STRING;
         } else {
-            token.type = TOKEN_ERROR;
+            token.type = TOKEN_ERROR;  //"hello
             strcpy(token.value, "Unclosed string");
         }
     }

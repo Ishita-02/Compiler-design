@@ -68,16 +68,6 @@ int negate(int number) {
     return -number;
 }
 
-// Function to increment a number by 1
-int increment(int number) {
-    return number + 1;
-}
-
-// Function to decrement a number by 1
-int decrement(int number) {
-    return number - 1;
-}
-
 // Function to check if a number is positive
 int isPositive(int number) {
     return (number > 0) ? 1 : 0;
@@ -197,73 +187,6 @@ int gcd(int a, int b) {
 // Computes the least common multiple (LCM) of two numbers.
 int lcm(int a, int b) {
     return abs(a * b) / gcd(a, b);
-}
-
-// PRINT FUNCTION
-
-// Function to print 
-int print(const char* str, ...) {
-	va_list ptr;
-	va_start(ptr, str);
-
-	char token[1000];
-	int k = 0;
-
-	for (int i = 0; str[i] != '\0'; i++) {
-		token[k++] = str[i];
-
-		if (str[i + 1] == '%' || str[i + 1] == '\0') {
-			token[k] = '\0';
-			k = 0;
-			if (token[0] != '%') {
-				fprintf(stdout, "%s", token);
-			} else {
-				int j = 1;
-				char ch1 = 0;
-				while ((ch1 = token[j++]) < 58) {
-				}
-				if (ch1 == 'i' || ch1 == 'd' || ch1 == 'u'
-					|| ch1 == 'h') {
-					fprintf(stdout, token,
-							va_arg(ptr, int));
-				} else if (ch1 == 'c') {
-					fprintf(stdout, token,
-							va_arg(ptr, int));
-				} else if (ch1 == 'f') {
-					fprintf(stdout, token,
-							va_arg(ptr, double));
-				} else if (ch1 == 'l') {
-					char ch2 = token[2];
-					if (ch2 == 'u' || ch2 == 'd'
-						|| ch2 == 'i') {
-						fprintf(stdout, token,
-								va_arg(ptr, long));
-					} else if (ch2 == 'f') {
-						fprintf(stdout, token,
-								va_arg(ptr, double));
-					}
-				} else if (ch1 == 'L') {
-					char ch2 = token[2];
-					if (ch2 == 'u' || ch2 == 'd'
-						|| ch2 == 'i') {
-						fprintf(stdout, token,
-								va_arg(ptr, long long));
-					} else if (ch2 == 'f') {
-						fprintf(stdout, token,
-								va_arg(ptr, long double));
-					}
-				} else if (ch1 == 's') {
-					fprintf(stdout, token,
-							va_arg(ptr, char*));
-				} else {
-					fprintf(stdout, "%s", token);
-				}
-			}
-		}
-	}
-
-	va_end(ptr);
-	return 0;
 }
 
 // DATE AND TIME FUNCTIONS 
@@ -478,5 +401,50 @@ void reverseString(char* text) {
         char temp = text[i];
         text[i] = text[length - i - 1];
         text[length - i - 1] = temp;
+    }
+}
+
+// Function to findastring that ends with suffix string
+bool endsWith(const char* str, const char* suffix) {
+    int strLength = strlen(str);
+    int suffixLength = strlen(suffix);
+
+    // If the suffix is longer than the string, it cannot be a suffix
+    if (strLength < suffixLength) {
+        return false;
+    }
+
+    // Compare the characters at the end of the string with the suffix
+    for (int i = 0; i < suffixLength; i++) {
+        if (str[strLength - suffixLength + i] != suffix[i]) {
+            return false; // Mismatch found
+        }
+    }
+
+    return true; // All characters in the suffix match the end of the string
+}
+
+// File Operations
+
+// Function to write in the file
+void writeFile(const char* filename, const char* data) {
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    fprintf(file, "%s", data);
+    fclose(file);
+}
+
+// Function to check whether the file exist or not
+int fileExists(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (file) {
+        fclose(file);
+        return 1;
+    } else {
+        return 0;
     }
 }
