@@ -5,6 +5,9 @@
 #include <string.h>
 #include <stdbool.h>
 
+
+// ARITHMETIC FUNCTIONS
+
 // Function to add two numbers a and b
 int add(int a, int b) {
     return a + b;
@@ -39,71 +42,6 @@ double power(double base, int exponent) {
         result *= base;
     }
     return (exponent > 0) ? result : 1.0 / result;
-}
-
-// Function to print 
-int print(const char* str, ...) {
-	va_list ptr;
-	va_start(ptr, str);
-
-	char token[1000];
-	int k = 0;
-
-	for (int i = 0; str[i] != '\0'; i++) {
-		token[k++] = str[i];
-
-		if (str[i + 1] == '%' || str[i + 1] == '\0') {
-			token[k] = '\0';
-			k = 0;
-			if (token[0] != '%') {
-				fprintf(stdout, "%s", token);
-			} else {
-				int j = 1;
-				char ch1 = 0;
-				while ((ch1 = token[j++]) < 58) {
-				}
-				if (ch1 == 'i' || ch1 == 'd' || ch1 == 'u'
-					|| ch1 == 'h') {
-					fprintf(stdout, token,
-							va_arg(ptr, int));
-				} else if (ch1 == 'c') {
-					fprintf(stdout, token,
-							va_arg(ptr, int));
-				} else if (ch1 == 'f') {
-					fprintf(stdout, token,
-							va_arg(ptr, double));
-				} else if (ch1 == 'l') {
-					char ch2 = token[2];
-					if (ch2 == 'u' || ch2 == 'd'
-						|| ch2 == 'i') {
-						fprintf(stdout, token,
-								va_arg(ptr, long));
-					} else if (ch2 == 'f') {
-						fprintf(stdout, token,
-								va_arg(ptr, double));
-					}
-				} else if (ch1 == 'L') {
-					char ch2 = token[2];
-					if (ch2 == 'u' || ch2 == 'd'
-						|| ch2 == 'i') {
-						fprintf(stdout, token,
-								va_arg(ptr, long long));
-					} else if (ch2 == 'f') {
-						fprintf(stdout, token,
-								va_arg(ptr, long double));
-					}
-				} else if (ch1 == 's') {
-					fprintf(stdout, token,
-							va_arg(ptr, char*));
-				} else {
-					fprintf(stdout, "%s", token);
-				}
-			}
-		}
-	}
-
-	va_end(ptr);
-	return 0;
 }
 
 // Function to calculate the absolute value of a number
@@ -246,15 +184,89 @@ int isPalindrome(const char* text) {
     return 1; // It's a palindrome
 }
 
-// Function to reverse the characters in a string
-void reverseString(char* text) {
-    int length = strlen(text);
-    for (int i = 0; i < length / 2; i++) {
-        char temp = text[i];
-        text[i] = text[length - i - 1];
-        text[length - i - 1] = temp;
+// Calculates the greatest common divisor (GCD) of two numbers.
+int gcd(int a, int b) {
+    while (b) {
+        int temp = a;
+        a = b;
+        b = temp % b;
     }
+    return a;
 }
+
+// Computes the least common multiple (LCM) of two numbers.
+int lcm(int a, int b) {
+    return abs(a * b) / gcd(a, b);
+}
+
+// PRINT FUNCTION
+
+// Function to print 
+int print(const char* str, ...) {
+	va_list ptr;
+	va_start(ptr, str);
+
+	char token[1000];
+	int k = 0;
+
+	for (int i = 0; str[i] != '\0'; i++) {
+		token[k++] = str[i];
+
+		if (str[i + 1] == '%' || str[i + 1] == '\0') {
+			token[k] = '\0';
+			k = 0;
+			if (token[0] != '%') {
+				fprintf(stdout, "%s", token);
+			} else {
+				int j = 1;
+				char ch1 = 0;
+				while ((ch1 = token[j++]) < 58) {
+				}
+				if (ch1 == 'i' || ch1 == 'd' || ch1 == 'u'
+					|| ch1 == 'h') {
+					fprintf(stdout, token,
+							va_arg(ptr, int));
+				} else if (ch1 == 'c') {
+					fprintf(stdout, token,
+							va_arg(ptr, int));
+				} else if (ch1 == 'f') {
+					fprintf(stdout, token,
+							va_arg(ptr, double));
+				} else if (ch1 == 'l') {
+					char ch2 = token[2];
+					if (ch2 == 'u' || ch2 == 'd'
+						|| ch2 == 'i') {
+						fprintf(stdout, token,
+								va_arg(ptr, long));
+					} else if (ch2 == 'f') {
+						fprintf(stdout, token,
+								va_arg(ptr, double));
+					}
+				} else if (ch1 == 'L') {
+					char ch2 = token[2];
+					if (ch2 == 'u' || ch2 == 'd'
+						|| ch2 == 'i') {
+						fprintf(stdout, token,
+								va_arg(ptr, long long));
+					} else if (ch2 == 'f') {
+						fprintf(stdout, token,
+								va_arg(ptr, long double));
+					}
+				} else if (ch1 == 's') {
+					fprintf(stdout, token,
+							va_arg(ptr, char*));
+				} else {
+					fprintf(stdout, "%s", token);
+				}
+			}
+		}
+	}
+
+	va_end(ptr);
+	return 0;
+}
+
+// DATE AND TIME FUNCTIONS 
 
 // Function to calculate the number of days in a specific month of a given year
 int daysInMonth(int month, int year) {
@@ -286,6 +298,8 @@ char* getCurrentDate() {
     return date;
 }
 
+// RANDOM NUMBER FUNCTIONS
+
 // Generates a random number within a specified range.
 int generateRandomNumber(int min_value, int max_value) {
     return rand() % (max_value - min_value + 1) + min_value;
@@ -296,20 +310,7 @@ int randomBoolean() {
     return rand() % 2;
 }
 
-// Calculates the greatest common divisor (GCD) of two numbers.
-int gcd(int a, int b) {
-    while (b) {
-        int temp = a;
-        a = b;
-        b = temp % b;
-    }
-    return a;
-}
-
-// Computes the least common multiple (LCM) of two numbers.
-int lcm(int a, int b) {
-    return abs(a * b) / gcd(a, b);
-}
+// ARRAY FUNCTIONS 
 
 // Finds the maximum value in an array.
 int findMax(int arr[], int size) {
@@ -408,6 +409,8 @@ void arrayRemove(int arr[], int* size, int element) {
     }
 }
 
+// STRING FUNCTIONS
+
 // Function to concatenate two strings.
 char* concatenateStrings(const char* str1, const char* str2) {
     char* result = (char*)malloc(strlen(str1) + strlen(str2) + 1);
@@ -466,4 +469,14 @@ char** stringSplit(const char* str, const char* delimiter, int* count) {
 
     free(copy);
     return result;
+}
+
+// Function to reverse the characters in a string
+void reverseString(char* text) {
+    int length = strlen(text);
+    for (int i = 0; i < length / 2; i++) {
+        char temp = text[i];
+        text[i] = text[length - i - 1];
+        text[length - i - 1] = temp;
+    }
 }
